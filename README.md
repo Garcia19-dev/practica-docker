@@ -535,6 +535,38 @@ e8dba9a1b12f   alpine        "/bin/sh"                21 minutes ago   Up 21 min
 
 # Laboratorio 4 : Configuración de un contenedor con la imagen mariadb
 
+# Comando 1 
+docker run -d --name some-mariadb -e MYSQL_ROOT_PASSWORD=my-secret-pw mariadb: Crea y ejecuta un contenedor de MariaDB en segundo plano, le asigna el nombre "some-mariadb" y usando la variable de entorno -e configura la contraseña del usuario root como "my-secret-pw" para poder acceder a la base de datos.
+
+@Garcia19-dev ➜ /workspaces/practica-docker (main) $ docker run -d --name some-mariadb -e MYSQL_ROOT_PASSWORD=my-secret-pw mariadb
+37b8a3c85ba4c2d82ca7d8a1518d9020230709aa59d0952f3fc6c45c11627878
+
+# Comando 2 
+docker ps -a: Muestra todos los contenedores existentes, donde vemos el recién creado some-mariadb activo y funcionando, mientras que los contenedores de prácticas anteriores (alpine, nginx, hello-world) aparecen como "Exited" porque se detuvieron al reiniciar el sistema o por tiempo de inactividad.
+
+@Garcia19-dev ➜ /workspaces/practica-docker (main) $ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                      PORTS                                 NAMES
+37b8a3c85ba4   mariadb       "docker-entrypoint.s…"   43 seconds ago   Up 42 seconds               3306/tcp                              some-mariadb
+2fd383c10bab   alpine        "/bin/sh"                4 days ago       Exited (255) 24 hours ago                                         contenedor-alpine
+c3e87a3c4f63   nginx         "/docker-entrypoint.…"   4 days ago       Exited (255) 24 hours ago   0.0.0.0:80->80/tcp, [::]:80->80/tcp   contenedor-nginx
+8374035aa9b7   hello-world   "/hello"                 4 days ago       Exited (0) 4 days ago                                             friendly_goldberg
+e8dba9a1b12f   alpine        "/bin/sh"                4 days ago       Exited (255) 24 hours ago                                         alpine_container
+
+# Comando 3 
+docker exec -it some-mariadb mariadb -u root -p: Se conecta al contenedor some-mariadb que está corriendo y ejecuta el cliente de MariaDB dentro de él, pide la contraseña configurada anteriormente y al ingresarla correctamente te deja dentro del monitor de MariaDB listo para ejecutar comandos SQL, como si estuvieras administrando la base de datos directamente.
+
+@Garcia19-dev ➜ /workspaces/practica-docker (main) $ docker exec -it some-mariadb mariadb -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 12.2.2-MariaDB-ubu2404 mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> 
+
 # Practicas-Retos
 
 # Practica-Búsqueda de imágenes del repositorio
